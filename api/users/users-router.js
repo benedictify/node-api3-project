@@ -5,26 +5,24 @@ const Posts = require('../posts/posts-model')
 
 // The middleware functions also need to be required
 const {
-  // middleware funcs from middleware file here
-
+  logger,
+  validateUserId,
+  validateUser,
+  validatePost,  
 } = require('../middleware/middleware')
 
 const router = express.Router();
 
-/* individual middleware function(s?), argument(s) inside use() */
-router.use((req, res, next) => { // this becomes a middleware function because it's in use()...?
-  // "order matters" - probably the middleware needs to be used after it is declared
-  
-  // call next() at the end
+router.use((req, res, next) => { 
 }) 
 
 router.get('/', (req, res) => {
   // RETURN AN ARRAY WITH ALL THE USERS
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, (req, res) => {
   // RETURN THE USER OBJECT
-  // this needs a middleware to verify user id
+  res.status(200).json(req.user)
 });
 
 router.post('/', (req, res) => {

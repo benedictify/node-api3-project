@@ -1,16 +1,24 @@
 const express = require('express');
 const {
   logger,
+  validateUserId,
+  validateUser,
+  validatePost,
 } = require('./middleware/middleware');
+
+const usersRouter = require('./users/users-router')
 
 const server = express();
 
 server.use(express.json()) 
 
-// global middlewares and the user's router need to be connected here
+server.use(logger); 
 
-server.use(logger); // global mw - ones that have .use instead of .http-verb ?
+server.use('/api/users', usersRouter); 
 
+server.use('/:id', validateUserId)
+
+// this can be the catch-all
 server.get('/', (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
